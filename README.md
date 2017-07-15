@@ -1,4 +1,5 @@
-##TIPS FOR USING GITHUB
+TIPS FOR USING GITHUB
+--------------
 
 - Local files can be found in the Documents/GitHub directory. Each new repo you create will show up as a subdirectory of GitHub.
 
