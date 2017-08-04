@@ -13,19 +13,25 @@
 #BusWidget {
   border: 5px solid clear;
   border-radius: .5em;
-  /*width: 20%;*/
   background: rebeccapurple;
   position: absolute;
   right: 100px;
   top: 100px;
 
 }
+
+
 #Menu {
 
 }
-.LastChance{
+
+
+#BusWidget td {
+  background-color: green;
+}
+#BusWidget .LastChance td{
   background-color: red;
 }
-.GetReady{
+#BusWidget .GetReady td{
   background-color: yellow;
 }
