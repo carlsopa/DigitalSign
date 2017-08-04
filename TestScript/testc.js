@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 $(document).ready(function(){
   //$(".button").click(function(event){
     LatLonCall();
     //event.preventDefault();
   //})
+=======
+$(function(){
+  $(".button").click(function(event){
+    LatLonCall();
+    event.preventDefault();
+  })
+>>>>>>> origin/master
 
 });
 function LatLonCall(){
@@ -19,6 +27,11 @@ function LatLonCall(){
 
   var params = {"address":FullAddress,"key":"AIzaSyAGt3oFrXSziqC7au4sGmMTadhBbqfjstY"}
   $.ajax({url: "https://maps.googleapis.com/maps/api/geocode/json?" + "address="+FullAddress+"&key=AIzaSyAGt3oFrXSziqC7au4sGmMTadhBbqfjstY",type: "GET",})
+<<<<<<< HEAD
+=======
+//  $.ajax({url: "https://api.wmata.com/Bus.svc/json/jStopSchedule?StopID=3002578&api_key=f9a8294236b6475990ef9d0085bc3826",type: "POST",})
+
+>>>>>>> origin/master
   .done(function(data){
     console.log("FINALLY");
     lat = data.results[0].geometry.location.lat;
@@ -26,7 +39,10 @@ function LatLonCall(){
     console.log(lat);
     console.log(lon);
     StationCall(lat,lon);
+<<<<<<< HEAD
     WeatherCall(lat,lon);
+=======
+>>>>>>> origin/master
   })
   .fail(function(data){
     console.log(data);
@@ -41,8 +57,18 @@ function StationCall(lat,lon){
   var params = {
             "api_key": "f9a8294236b6475990ef9d0085bc3826",
             "Lat": Latitude,"Lon": Longitude,"Radius": "300",};
+<<<<<<< HEAD
   console.log("https://api.wmata.com/Bus.svc/json/jStops?Lat="+Latitude+"&Lon="+Longitude+"&Radius="+Radius+"&api_key="+api_key);
   $.ajax({url: "https://api.wmata.com/Bus.svc/json/jStops?"+$.param(params),type: "GET"})
+=======
+  alert(api_key);
+  alert(Latitude);
+  alert(Longitude);
+  console.log("https://api.wmata.com/Bus.svc/json/jStops?Lat="+Latitude+"&Lon="+Longitude+"&Radius="+Radius+"&api_key="+api_key);
+  //$.ajax({url: "https://api.wmata.com/Bus.svc/json/jStops?Lat="+Latitude+"&Lon="+Longitude+"&Radius="+Radius+"&api_key="+api_key,type: "GET",})
+  $.ajax({url: "https://api.wmata.com/Bus.svc/json/jStops?"+$.param(params),type: "GET"})
+  //$.ajax({url: "https://api.wmata.com/Bus.svc/json/jStops?Lat=38.9200763&Lon=-77.0387962&Radius=300&api_key=f9a8294236b6475990ef9d0085bc3826",type: "GET"})
+>>>>>>> origin/master
   .done(function(result){
     console.log("PAUL IS AWESOME!");
     var id= result.Stops[0].StopID;
@@ -62,6 +88,7 @@ var api_key = "f9a8294236b6475990ef9d0085bc3826";
 var StopID = response;
 $.ajax({url: "https://api.wmata.com/NextBusService.svc/json/jPredictions?StopID="+StopID+"&api_key="+api_key,type: "GET",})
 .done(function(data){
+<<<<<<< HEAD
   console.log("https://api.wmata.com/NextBusService.svc/json/jPredictions?StopID="+StopID+"&api_key="+api_key)
   console.log(data);
   BusTable(data);
@@ -70,6 +97,9 @@ $.ajax({url: "https://api.wmata.com/NextBusService.svc/json/jPredictions?StopID=
       //return 'Route ID: '+data.Predictions[index].RouteID+', Direction: '+data.Predictions[index].DirectionText+', time till arrival: '+data.Predictions[index].Minutes+'<br>';
     //}).join()
   //);
+=======
+  console.log(data)
+>>>>>>> origin/master
 })
 .fail(function(data){
   alert("BusSchedule Failure!");
