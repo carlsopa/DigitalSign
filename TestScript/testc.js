@@ -79,11 +79,11 @@ $.ajax({url: "https://api.wmata.com/NextBusService.svc/json/jPredictions?StopID=
   console.log("https://api.wmata.com/NextBusService.svc/json/jPredictions?StopID="+StopID+"&api_key="+api_key)
   console.log(data);
   BusTable(data);
-  $('#BusWidget').append(
+ /* $('#BusWidget').append(
     $.map(data.Predictions, function(ignore, index){
       return 'Route ID: '+data.Predictions[index].RouteID+', Direction: '+data.Predictions[index].DirectionText+', time till arrival: '+data.Predictions[index].Minutes+'<br>';
     }).join()
-  );
+  );*/
 })
 .fail(function(data){
   alert("BusSchedule Failure!");
@@ -108,27 +108,40 @@ function WeatherCall(lat,lon){
 }
 function BusTable(bus){
   var $table = $('<table/>');
-  $table.html("<th>Route ID</th><th>Direction</th><th>Minutes till arrival</th>");
-  //$('#BusWidget').html(
-    $.map(bus.Predictions, function(ignore,index){
-      $table.append(
-      '<tr><td id="Route">'+bus.Predictions[index].RouteID+'</td>'+
-      '<td>'+bus.Predictions[index].DirectionText+'</td>'+
-      '<td id="time">'+bus.Predictions[index].Minutes+'</td></tr>'
-      );
-      $('#BusWidget').html($table);
+  var $headingRow = $('<tr/>', {'id': 'header'});
+  var headings = ["Route ID", "Direction", "Minutes till arrival"]
+  $.each(headings, function(index, heading) {
+    var tableHeading = $('<th/>').html(heading)
+    $headingRow.append(tableHeading)
+  });
+  $table.html($headingRow);
+  var TableRowIds = ["RouteID","DirectionText","Minutes"];
+  $.each(bus.Predictions, function(index, prediction){
+    var $TableRow = $('<tr/>')
+    $.each(TableRowIds, function(idIndex, rowId) {
+    var TableRowData = $('<td/>', {'id': rowId}).html(prediction[rowId]);
+    $TableRow.append(TableRowData);
     })
+  $table.append($TableRow);
+  });
+  $('#BusWidget').html($table);
     AlertBus();
 }
 function AlertBus(){
   $("tr").each(function(){
-    var col_val = $(this).find("td:eq(2)").text();
-    if (col_val < 10){
+    var col_val = $(this).find("td#Minutes").text();
+    console.log(col_val, $(this))
+    if ($(this).attr("id") == "header" ) {
+      $(this).css('background-color', 'blue')
+    }
+    else if (col_val < 10){
       $(this).addClass('LastChance');
     }
     else if (col_val < 20){
       $(this).addClass('GetReady');
     }
+
+   
     
   });
 }
