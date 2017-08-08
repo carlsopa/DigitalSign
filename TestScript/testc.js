@@ -1,6 +1,11 @@
 $(document).ready(function(){
   $(".button").click(function(event){
     LatLonCall();
+    Menu();
+    setInterval(function(){
+      console.log("reset");
+      LatLonCall();},60000);
+    //})
     event.preventDefault();
   })
 
@@ -37,7 +42,7 @@ function LatLonCall(){
   })
   .fail(function(data){
     console.log(data);
-    alert("LatLonCall Failure!")
+    //alert("LatLonCall Failure!")
   });
 }
 function StationCall(lat,lon){
@@ -50,13 +55,11 @@ function StationCall(lat,lon){
             "Lat": Latitude,"Lon": Longitude,"Radius": "300",};
   console.log("https://api.wmata.com/Bus.svc/json/jStops?Lat="+Latitude+"&Lon="+Longitude+"&Radius="+Radius+"&api_key="+api_key);
   $.ajax({url: "https://api.wmata.com/Bus.svc/json/jStops?"+$.param(params),type: "GET"})
-  alert(api_key);
-  alert(Latitude);
-  alert(Longitude);
+  //alert(api_key);
+  //alert(Latitude);
+  //alert(Longitude);
   console.log("https://api.wmata.com/Bus.svc/json/jStops?Lat="+Latitude+"&Lon="+Longitude+"&Radius="+Radius+"&api_key="+api_key);
-  //$.ajax({url: "https://api.wmata.com/Bus.svc/json/jStops?Lat="+Latitude+"&Lon="+Longitude+"&Radius="+Radius+"&api_key="+api_key,type: "GET",})
   $.ajax({url: "https://api.wmata.com/Bus.svc/json/jStops?"+$.param(params),type: "GET"})
-  //$.ajax({url: "https://api.wmata.com/Bus.svc/json/jStops?Lat=38.9200763&Lon=-77.0387962&Radius=300&api_key=f9a8294236b6475990ef9d0085bc3826",type: "GET"})
   .done(function(result){
     console.log("PAUL IS AWESOME!");
     var id= result.Stops[0].StopID;
@@ -72,22 +75,17 @@ function StationCall(lat,lon){
   });
 }
 function BusSchedule(response){
-var api_key = "f9a8294236b6475990ef9d0085bc3826";
-var StopID = response;
-$.ajax({url: "https://api.wmata.com/NextBusService.svc/json/jPredictions?StopID="+StopID+"&api_key="+api_key,type: "GET",})
-.done(function(data){
-  console.log("https://api.wmata.com/NextBusService.svc/json/jPredictions?StopID="+StopID+"&api_key="+api_key)
-  console.log(data);
-  BusTable(data);
- /* $('#BusWidget').append(
-    $.map(data.Predictions, function(ignore, index){
-      return 'Route ID: '+data.Predictions[index].RouteID+', Direction: '+data.Predictions[index].DirectionText+', time till arrival: '+data.Predictions[index].Minutes+'<br>';
-    }).join()
-  );*/
-})
-.fail(function(data){
-  alert("BusSchedule Failure!");
-})
+  var api_key = "f9a8294236b6475990ef9d0085bc3826";
+  var StopID = response;
+  $.ajax({url: "https://api.wmata.com/NextBusService.svc/json/jPredictions?StopID="+StopID+"&api_key="+api_key,type: "GET",})
+  .done(function(data){
+    console.log("https://api.wmata.com/NextBusService.svc/json/jPredictions?StopID="+StopID+"&api_key="+api_key)
+    console.log(data);
+    BusTable(data);
+  })
+  .fail(function(data){
+    alert("BusSchedule Failure!");
+  })
 }
 function WeatherCall(lat,lon){
   var Latitude = lat;
@@ -119,10 +117,10 @@ function BusTable(bus){
   $.each(bus.Predictions, function(index, prediction){
     var $TableRow = $('<tr/>')
     $.each(TableRowIds, function(idIndex, rowId) {
-    var TableRowData = $('<td/>', {'id': rowId}).html(prediction[rowId]);
-    $TableRow.append(TableRowData);
+      var TableRowData = $('<td/>', {'id': rowId}).html(prediction[rowId]);
+      $TableRow.append(TableRowData);
     })
-  $table.append($TableRow);
+    $table.append($TableRow);
   });
   $('#BusWidget').html($table);
     AlertBus();
@@ -130,7 +128,7 @@ function BusTable(bus){
 function AlertBus(){
   $("tr").each(function(){
     var col_val = $(this).find("td#Minutes").text();
-    console.log(col_val, $(this))
+    //console.log(col_val, $(this))
     if ($(this).attr("id") == "header" ) {
       $(this).css('background-color', 'blue')
     }
@@ -140,8 +138,33 @@ function AlertBus(){
     else if (col_val < 20){
       $(this).addClass('GetReady');
     }
-
-   
-    
   });
+}
+function Menu(){
+  var $Menu = $('<table/>');
+  var $MenuHeader = $('<tr/>',{'id':'MenuHeader'});
+  var MenuHeadingsTxt = ["Establishment","Item","Description","Price"];
+  $.ajax({url: "http://www.carlsondigitalsigns.com/results.json", type:"GET"})
+  .done(function(MenuData){
+    console.log("menu loaded");
+    $.each(MenuHeadingsTxt,function(index, Txt){
+      var MenuHeadings = $('<th/>').html(Txt);
+      $MenuHeader.append(MenuHeadings);
+    });
+    $Menu.html($MenuHeader);
+    var MenuRowIds = ["Establishment","MenuItem","MenuDescription","Price"];
+    $.each(MenuData, function(index, item){
+      var $MenuRow = $('<tr/>');
+      $.each(MenuRowIds, function(IdIndex, id){
+        //console.log(item[id]);
+        var MenuRowData = $('<td/>',{'id':id}).html(item[id]);
+        $MenuRow.append(MenuRowData);
+      })
+      $Menu.append($MenuRow);
+    })
+    $('#Menu').html($Menu);
+  })
+  .fail(function(MenuData){
+    console.log("Menu load fail");
+  })
 }
