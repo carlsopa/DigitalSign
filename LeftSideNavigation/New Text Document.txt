@@ -1,0 +1,6 @@
+These sets of files are for the left side navigation test.  Basically I took a beautiful design for a navigational bar on the left side, and tweaked it meet my needs.  When you click on of the links it will open up a corresponding PHP page in the area to the right.
+
+I like the look and color scheme of this design, and so will probably make this a final design.
+
+Initial design can be seen here: 
+https://codyhouse.co/demo/responsive-sidebar-navigation/index.html#0
