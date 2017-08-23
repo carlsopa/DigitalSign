@@ -22,6 +22,7 @@
 
   <body>
     <header class="main-header">
+      <div class="Company">Carlson Signs</div>
       <div class="Establishment-header">
         <h1><?php echo $BarRow[0]?></h1>
       </div>

@@ -35,6 +35,18 @@ a {
     position: relative;
 }
 
+.Menu-table {
+    width: 90%;
+}
+
+.Menu-table td {
+    height: 25px;
+}
+
+.Menu-table td.menu-price {
+    text-align: right;
+}
+
 @media only screen and (min-width: 768px) {
     .user-nav {
         display: block;
@@ -223,4 +235,8 @@ a {
     .has-children ul a {
         padding-left: 18px;
     }
+}
+
+Menu-table td.menu-price {
+    text-align: right;
 }
